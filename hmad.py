@@ -42,13 +42,13 @@ for div in soup.find_all("div",attrs={"class":"card bg-dark text-white bg-bloc"}
             "image" : image
         }
 
-        f = open('title.txt','r')
-        if title+"\n" in f.readlines():
-          print("already exist")
+        posts = db.get()
+        titles = []
+        for i in range(len(posts.val())):
+          titles.append(posts[i].val()['title'])
+
+        if title in titles:
+          print('post already exist')
         else:
+          print('dosn\'t exist ')
           db.push(data)
-          f = open('title.txt','a')
-          f.write(title+"\n")
-          f.close()
-        f.close()
-                
