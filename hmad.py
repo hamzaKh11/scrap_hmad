@@ -2,21 +2,18 @@ from bs4 import BeautifulSoup
 import cfscrape
 import pyrebase
 
-
 firebaseConfig = {
-  "apiKey": "AIzaSyB6bgENg-G6NQabD3H-PcxV3ltBfkdFk2I",
-  "authDomain": "lematin-c8f0f.firebaseapp.com",
-  "databaseURL": "https://lematin-c8f0f-default-rtdb.firebaseio.com",
-  "projectId": "lematin-c8f0f",
-  "storageBucket": "lematin-c8f0f.appspot.com",
-  "messagingSenderId": "1097086194768",
-  "appId": "1:1097086194768:web:9f133ca0767857ef93ed55",
-  "measurementId": "G-5RVS3RZTWJ"
+  "apiKey": "AIzaSyB-KG5bkwn8imusmD97WXhLJ3WMUohjKhI",
+  "authDomain": "dblematin-fb174.firebaseapp.com",
+  "databaseURL": "https://dblematin-fb174-default-rtdb.firebaseio.com",
+  "projectId": "dblematin-fb174",
+  "storageBucket": "dblematin-fb174.appspot.com",
+  "messagingSenderId": "85079753433",
+  "appId": "1:85079753433:web:2cac6ff88a5cde247d34c8",
+  "measurementId": "G-TG09MT9HZF"
 }
 firebase = pyrebase.initialize_app(firebaseConfig)
 db = firebase.database()
-
-
     
 URL = "https://lematin.ma/"
 scraper = cfscrape.create_scraper()  
@@ -32,17 +29,26 @@ for div in soup.find_all("div",attrs={"class":"card bg-dark text-white bg-bloc"}
         times = post.find('time').text
         img = post.find('img', {'class':'d-block w-100'})
         if img:
-            image = img.get('src')
+          image = img.get('src')
         texts = ''
         for div in post.find_all("div",attrs={"class":"card-body p-2"}):
             for p in div.findAll('p'):
                 texts += p.getText()
+                
         data = {
             "title": title,
             "time" : times,
             "text" : texts,
             "image" : image
         }
-        db.push(data)
+
+        f = open('title.txt','r')
+        if title+"\n" in f.readlines():
+          print("already exist")
+        else:
+          db.push(data)
+          f = open('title.txt','a')
+          f.write(title+"\n")
+          f.close()
+        f.close()
                 
-            
