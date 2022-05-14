@@ -51,4 +51,4 @@ for div in soup.find_all("div",attrs={"class":"card bg-dark text-white bg-bloc"}
           print('post already exist')
         else:
           print('dosn\'t exist ')
-          db.push(data)
+          #db.push(data)
